@@ -8,6 +8,7 @@ import ua.andrii.project_7.enums.UserType;
 import ua.andrii.project_7.exception.*;
 
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.util.List;
 
 public interface AdminService {
@@ -125,10 +126,12 @@ public interface AdminService {
      * Creates a new record of Exposition object with given parameters.
      *
      * @param expositionName name of the exposition
+     * @param startDate      event beginning date
+     * @param endDate        event ending date
      * @return <code><b>true</b></code> if operation's successful, otherwise - <code><b>false</b></code>
      * @throws WrongExpositionDataException in case some exposition data is wrong
      */
-    boolean addNewExposition(String expositionName) throws WrongExpositionDataException;
+    boolean addNewExposition(String expositionName, Timestamp startDate, Timestamp endDate) throws WrongExpositionDataException;
 
     /**
      * Returns an Exposition object by given id.
