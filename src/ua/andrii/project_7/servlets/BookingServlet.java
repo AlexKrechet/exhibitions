@@ -16,7 +16,6 @@ import java.util.ResourceBundle;
 
 public class BookingServlet extends HttpServlet {
     private static final Logger LOGGER = Logger.getLogger(BookingServlet.class);
-    private ResourceBundle servletProperties = ResourceBundle.getBundle("resources.servlet_config");
 
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -60,6 +59,7 @@ public class BookingServlet extends HttpServlet {
         LOGGER.debug("Command: " + command);
         result = command.execute(request, response);
         ServletContext sc = getServletContext();
+        LOGGER.debug("RD:    /WEB-INF/jsp" + result);
         RequestDispatcher rd = sc.getRequestDispatcher("/WEB-INF/jsp" + result);
         rd.forward(request, response);
     }
