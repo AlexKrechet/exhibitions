@@ -46,7 +46,7 @@ public class UpdateShowroomInfoAdminCommand extends Command {
         try {
             checkPrice(showroomPriceString);
             showroomPrice = new BigDecimal(showroomPriceString);
-            Showroom newShowroom = new Showroom.Builder().withShowroomName(showroomName).withExposition(showroomExposition).withPrice(showroomPrice).build();
+            Showroom newShowroom = new Showroom(showroomName, showroomExposition, showroomPrice);
             newShowroom.setId(new Long(showroomId.trim()).longValue());
 
             expositionsList = deleteExpositionFromList(expositionsList, newShowroom.getExposition());

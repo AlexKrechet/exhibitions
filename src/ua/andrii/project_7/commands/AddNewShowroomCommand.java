@@ -28,7 +28,7 @@ public class AddNewShowroomCommand extends Command {
 
         String showroom_name = request.getParameter("showroom_name");
         String showroom_price = request.getParameter("showroom_price");
-        Showroom showroom_exposition = GetExpositionFromRequest(request);
+        Exposition showroom_exposition = GetExpositionFromRequest(request);
 
         try {
             boolean result = adminService.addNewShowroom(showroom_name, showroom_exposition.getId(), new BigDecimal(showroom_price));
@@ -36,9 +36,9 @@ public class AddNewShowroomCommand extends Command {
                 List<Showroom> showroomsList = adminService.getShowrooms();
                 List<Exposition> expositionsList = adminService.getExpositions();
                 request.setAttribute(SHOWROOM_EXPOSITIONS_LIST, expositionsList);
-                request.setAttribute("showroomlist", showroomsList);
+                request.setAttribute("showroomslist", showroomsList);
                 request.setAttribute("message", "Showroom creation is successful. " + showroom_name + " is added");
-                return "/periodical.jsp";
+                return "/showroom.jsp";
 
             } else {
                 request.setAttribute("error", "An internal error occurred while trying to create a new showroom");
@@ -54,11 +54,11 @@ public class AddNewShowroomCommand extends Command {
         return "/showroom_create_new.jsp";
     }
 
-    private Showroom GetExpositionFromRequest(HttpServletRequest request) {
+    private Exposition GetExpositionFromRequest(HttpServletRequest request) {
         String items = request.getParameter("showrooms.exposition_selected");
         StringTokenizer t = new StringTokenizer(items, "|");
         String itemId = t.nextToken();
 
-        return adminService.getShowroom(new Long(itemId.trim()));
+        return adminService.getExposition(new Long(itemId.trim()));
     }
 }
