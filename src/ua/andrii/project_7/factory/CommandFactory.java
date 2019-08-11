@@ -1,6 +1,6 @@
 package ua.andrii.project_7.factory;
 
-import ua.andrii.project_7.commands.Command;
+import ua.andrii.project_7.commands.*;
 import ua.andrii.project_7.enums.DaoType;
 import ua.andrii.project_7.enums.ServiceType;
 
@@ -28,7 +28,7 @@ public class CommandFactory {
 
         commands.put("USER_INFO", new UserInfoCommand());
         commands.put("UPDATE_USER_PASSWORD", new UserPasswordChangeCommand());
-        commands.put("NEW_USER_PASSWORD", new newUserPasswordCommand(serviceFactory.getAdminService()));
+        commands.put("NEW_USER_PASSWORD", new NewUserPasswordCommand(serviceFactory.getAdminService()));
 
         commands.put("ADD_NEW_USER", new AddNewUserCommand(serviceFactory.getAdminService()));
         commands.put("ADD_NEW_USER_BY_ADMIN", new AddNewUserAdminCommand(serviceFactory.getAdminService()));
