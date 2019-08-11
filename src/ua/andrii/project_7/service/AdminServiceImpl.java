@@ -221,7 +221,7 @@ public class AdminServiceImpl implements AdminService {
         if (price == null) {
             throw new WrongShowroomDataException("Price is a required field!");
         }
-        Showroom showroom = new Showroom.Builder().withShowroomName(showroomName).withExposition(exposition).withPrice(price).build();
+        Showroom showroom = new Showroom(showroomName, exposition, price);
         return showroomDao.create(showroom) != null;
     }
 
@@ -230,7 +230,7 @@ public class AdminServiceImpl implements AdminService {
         if (expositionName.isEmpty()) {
             throw new WrongExpositionDataException("Exposition's name is a required field!");
         }
-        Exposition exposition = new Exposition.Builder().withName(expositionName).withEventStartDate(startDate).withEventEndDate(endDate).build();
+        Exposition exposition = new Exposition(expositionName, startDate, endDate);
 
         return expositionDao.create(exposition) != null;
     }
