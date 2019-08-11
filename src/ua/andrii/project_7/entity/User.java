@@ -67,7 +67,7 @@ public abstract class User implements Serializable {
         return lastName;
     }
 
-    public void setLastName() {
+    public void setLastName(String lastName) {
         this.lastName = lastName;
     }
 
@@ -121,7 +121,7 @@ public abstract class User implements Serializable {
                 .append(isBlockedText).append(".").toString();
     }
 
-    public String getDisplay() {
+    public String getPresentation() {
         return getId() + " | " + getFullName();
     }
 }

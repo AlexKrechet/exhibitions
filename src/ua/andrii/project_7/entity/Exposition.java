@@ -8,28 +8,12 @@ public class Exposition {
     private Long id;
     private String name;
     private Timestamp eventStartDate;
-    private Timestamp getEventEndDate;
+    private Timestamp eventEndDate;
 
-    public static class Builder {
-        private Exposition newExposition;
-
-        public Builder withName(@NotNull String name) {
-            newExposition.name = name;
-            return this;
-        }
-
-        public Builder withEventStartDate(@NotNull Timestamp eventStartDate) {
-            newExposition.eventStartDate = eventStartDate;
-            return this;
-        }
-
-        public Builder withEventEndDate(@NotNull Timestamp eventEndDate) {
-            return this;
-        }
-
-        public Exposition build() {
-            return newExposition;
-        }
+    public Exposition(@NotNull String name, @NotNull Timestamp eventStartDate, @NotNull Timestamp eventEndDate) {
+        this.name = name;
+        this.eventStartDate = eventStartDate;
+        this.eventEndDate = eventEndDate;
     }
 
     public Long getId() {
@@ -56,12 +40,12 @@ public class Exposition {
         this.eventStartDate = eventStartDate;
     }
 
-    public Timestamp getGetEventEndDate() {
-        return getEventEndDate;
+    public Timestamp getEventEndDate() {
+        return eventEndDate;
     }
 
-    public void setGetEventEndDate(Timestamp eventEndDate) {
-        this.getEventEndDate = eventEndDate;
+    public void setEventEndDate(Timestamp eventEndDate) {
+        this.eventEndDate = eventEndDate;
     }
 
     @Override

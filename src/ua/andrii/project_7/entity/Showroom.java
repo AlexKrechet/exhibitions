@@ -6,31 +6,14 @@ import java.math.BigDecimal;
 
 public class Showroom {
     private Long id;
-    private String showroomName;
+    private String name;
     private Exposition exposition;
     private BigDecimal price = new BigDecimal("0.00").setScale(2, BigDecimal.ROUND_CEILING);
 
-    public static class Builder {
-        private Showroom newShowroom;
-
-        public Builder withShowroomName(@NotNull String showroomName) {
-            newShowroom.showroomName = showroomName;
-            return this;
-        }
-
-        public Builder withExposition(@NotNull Exposition exposition) {
-            newShowroom.exposition = exposition;
-            return this;
-        }
-
-        public Builder withPrice(@NotNull BigDecimal price) {
-            newShowroom.price = price;
-            return this;
-        }
-
-        public Showroom build() {
-            return newShowroom;
-        }
+    public Showroom(@NotNull String name, @NotNull Exposition exposition, @NotNull BigDecimal price) {
+        this.name = name;
+        this.exposition = exposition;
+        this.price = price;
     }
 
     public Long getId() {
@@ -41,12 +24,12 @@ public class Showroom {
         this.id = id;
     }
 
-    public String getShowroomName() {
-        return showroomName;
+    public String getName() {
+        return name;
     }
 
-    public void setShowroomName(String showroomName) {
-        this.showroomName = showroomName;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Exposition getExposition() {
@@ -82,12 +65,12 @@ public class Showroom {
     @Override
     public String toString() {
         return new StringBuilder().append("Showroom : ").append("id = ").append(id).append(", showroom name = ")
-                .append(showroomName).append("\\").append(", exposition = ").append(exposition).append(", price = ")
+                .append(name).append("\\").append(", exposition = ").append(exposition).append(", price = ")
                 .append(price).append(".").toString();
     }
 
     public String getPresentation() {
-        return getId() + " | " + getShowroomName() + " | " + getExposition().getId() + " | " + getExposition().getName()
+        return getId() + " | " + getName() + " | " + getExposition().getId() + " | " + getExposition().getName()
                 + " | " + getPrice();
     }
 }

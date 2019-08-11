@@ -96,26 +96,30 @@ public class Order {
     public void setTotalPrice(BigDecimal totalPrice) {
         this.totalPrice = totalPrice;
     }
+
     @Override
-    public boolean equals(Object o){
+    public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
         Order order = (Order) o;
         return id == order.id;
     }
+
     @Override
-    public int hashCode(){
+    public int hashCode() {
         return id.hashCode();
     }
+
     @Override
-    public String toString(){
+    public String toString() {
         return new StringBuilder().append("Order = ").append("id = ").append(id).append(", tickets = ")
                 .append(tickets).append(", user = ").append(user).append(", purchase date = ").append(purchaseDate)
                 .append(", paid = ").append(paid).append(", total price = ").append(totalPrice).append(".").toString();
     }
-    public String getPresentation(){
+
+    public String getPresentation() {
         return getId() + " | " + getPurchaseDate() + " | " + getUser().getId() + " | " + getUser().getFullName() +
-         " | " + (isPaid() ? " paid " : " not paid ") + " | " + getTotalPrice();
+                " | " + (isPaid() ? " paid " : " not paid ") + " | " + getTotalPrice();
     }
 }
