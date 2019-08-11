@@ -19,7 +19,7 @@ public class OrderDaoImpl implements ItemsDao<Order> {
     private final String SQL_BASE_QUERY_SELECTION_TEXT = "SELECT orders.*, users.*, showroom.*, tickets.*, exposition.*" +
             "FROM orders " +
             "LEFT JOIN users AS users ON users.id = orders.user_id " +
-            "LEFT JOIN tickets AS tickets ON tickets.tickets_id = orders.id " +
+            "LEFT JOIN tickets AS tickets ON tickets.orders_id = orders.id " +
             "LEFT JOIN showroom AS showroom ON showroom.id = tickets.tickets.id " +
             "LEFT JOIN exposition AS exposition ON showroom.exposition_id = exposition.id";
 
@@ -69,7 +69,7 @@ public class OrderDaoImpl implements ItemsDao<Order> {
     }
 
     private int createTicket(Connection connection, Order order, Showroom showroom, int ticketQuantity) {
-        String query_text = "INSERT INTO tickets (showroom_id, tickets_id, ticket_quantity) VALUES (?, ?, ?)";
+        String query_text = "INSERT INTO tickets (showroom_id, orders_id, showroom_quantity) VALUES (?, ?, ?)";
         LOGGER.info(query_text);
         try (PreparedStatement statement = connection.prepareStatement(query_text, Statement.RETURN_GENERATED_KEYS)) {
             statement.setLong(1, showroom.getId());
@@ -127,7 +127,7 @@ public class OrderDaoImpl implements ItemsDao<Order> {
 
     @Override
     public boolean delete(Order order) {
-        String query_text = "DELETE orders, tickets FROM orders LEFT JOIN tickets as tickets ON tickets_id = id WHERE orders.id = ?";
+        String query_text = "DELETE orders, tickets FROM orders LEFT JOIN tickets as tickets ON orders_id = id WHERE orders.id = ?";
         LOGGER.info(query_text);
         try (Connection connection = dataSource.getConnection();
              PreparedStatement statement = connection.prepareStatement(query_text, Statement.RETURN_GENERATED_KEYS)) {
@@ -149,7 +149,7 @@ public class OrderDaoImpl implements ItemsDao<Order> {
 
     @Override
     public List<Order> findAll() {
-        String query_text = "SELECT orders.*, users.*, FROM orders LEFT JOIN users AS users ON users.id = orders.user_id";
+        String query_text = "SELECT orders.*, users.* FROM orders LEFT JOIN users AS users ON users.id = orders.user_id";
         LOGGER.info(query_text);
         List<Order> orders = new ArrayList<>();
         try (Connection connection = dataSource.getConnection();
@@ -167,7 +167,7 @@ public class OrderDaoImpl implements ItemsDao<Order> {
         while (result.next()) {
 
             long orderId = result.getLong("orders.id");
-            Timestamp purchaseDate = result.getTimestamp("order.purchase_date");
+            Timestamp purchaseDate = result.getTimestamp("orders.purchase_date");
             boolean paid = result.getBoolean("orders.paid");
             BigDecimal totalPrice = result.getBigDecimal("orders.total_price");
             long userId = result.getLong("users.id");
@@ -175,7 +175,7 @@ public class OrderDaoImpl implements ItemsDao<Order> {
             String login = result.getString("users.login");
             String password = result.getString("users.password");
             String name = result.getString("users.name");
-            String lastName = result.getString("users.lastName");
+            String lastName = result.getString("users.last_name");
             boolean isBlocked = result.getBoolean("users.isBlocked");
             UserType userType = UserType.valueOf(result.getString("users.user_type").toUpperCase());
 
@@ -202,7 +202,7 @@ public class OrderDaoImpl implements ItemsDao<Order> {
             String login = result.getString("users.login");
             String password = result.getString("users.password");
             String name = result.getString("users.name");
-            String lastName = result.getString("users.lastName");
+            String lastName = result.getString("users.last_name");
             boolean isBlocked = result.getBoolean("users.isBlocked");
             UserType userType = UserType.valueOf(result.getString("users.user_type").toUpperCase());
             long userId = result.getLong("users.id");
@@ -224,9 +224,9 @@ public class OrderDaoImpl implements ItemsDao<Order> {
 
             Long expositionId = result.getLong("showroom.exposition_id");
             String expositionName = result.getString("exposition.name");
-            Timestamp eventStart = result.getTimestamp("eventStartDate");
-            Timestamp eventEnd = result.getTimestamp("eventEndDate");
-            Exposition exposition = new Exposition.Builder().withName(expositionName).withEventStartDate(eventStart).withEventEndDate(eventEnd).build();
+            Timestamp eventStart = result.getTimestamp("event_start_date");
+            Timestamp eventEnd = result.getTimestamp("event_end_date");
+            Exposition exposition = new Exposition(expositionName, eventStart, eventEnd);
 
             exposition.setId(expositionId);
 
@@ -235,10 +235,10 @@ public class OrderDaoImpl implements ItemsDao<Order> {
             String name = result.getString("showroom.name");
             BigDecimal price = result.getBigDecimal("showroom.price");
 
-            Showroom showroom = new Showroom.Builder().withShowroomName(name).withExposition(exposition).withPrice(price).build();
+            Showroom showroom = new Showroom(name, exposition, price);
             showroom.setId(showroomId);
 
-            Ticket ticket = new Ticket.Builder().withShowroom(showroom).withQuantity(ticketQuantity).build();
+            Ticket ticket = new Ticket(showroom, ticketQuantity);
             tickets.add(ticket);
         }
         return tickets;

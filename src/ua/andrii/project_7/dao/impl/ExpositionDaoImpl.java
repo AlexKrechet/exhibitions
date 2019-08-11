@@ -22,10 +22,10 @@ public class ExpositionDaoImpl implements ItemsDao<Exposition> {
 
     @Override
     public Long create(Exposition exposition) {
-        String query_text = "INSERT INTO exposition (name, eventStartDate, eventEndDate) VALUES (?, ?, ?)";
+        String query_text = "INSERT INTO exposition (name, event_start_date, event_end_date) VALUES (?, ?, ?)";
         LOGGER.info(query_text);
         try (Connection connection = dataSource.getConnection();
-             PreparedStatement statement = connection.prepareStatement(query_text)) {
+             PreparedStatement statement = connection.prepareStatement(query_text, Statement.RETURN_GENERATED_KEYS)) {
             statement.setString(1, exposition.getName());
             statement.setTimestamp(2, exposition.getEventStartDate());
             statement.setTimestamp(3, exposition.getEventEndDate());
@@ -50,6 +50,7 @@ public class ExpositionDaoImpl implements ItemsDao<Exposition> {
         LOGGER.info(query_text);
         try (Connection connection = dataSource.getConnection();
              PreparedStatement statement = connection.prepareStatement(query_text)) {
+            statement.setLong(1, id);
             ResultSet result = statement.executeQuery();
             List<Exposition> expositions = getExpositionFromResultSet(result);
             if (expositions.size() > 0) {
@@ -66,13 +67,14 @@ public class ExpositionDaoImpl implements ItemsDao<Exposition> {
 
     @Override
     public boolean update(Exposition exposition) {
-        String query_text = "UPDATE exposition SET name = ?, eventStartDate = ?, eventEndDate = ? WHERE id = ?";
+        String query_text = "UPDATE exposition SET name = ?, event_start_date = ?, event_end_date = ? WHERE id = ?";
         LOGGER.info(query_text);
         try (Connection connection = dataSource.getConnection();
              PreparedStatement statement = connection.prepareStatement(query_text)) {
             statement.setString(1, exposition.getName());
             statement.setTimestamp(2, exposition.getEventStartDate());
             statement.setTimestamp(3, exposition.getEventEndDate());
+            statement.setLong(4, exposition.getId());
             return statement.executeUpdate() != 0;
         } catch (SQLException e) {
             LOGGER.error("Failed to update expositions! " + e.getMessage());
@@ -115,10 +117,10 @@ public class ExpositionDaoImpl implements ItemsDao<Exposition> {
         while (result.next()) {
             long id = result.getLong("id");
             String name = result.getString("name");
-            Timestamp eventStart = result.getTimestamp("eventStartDate");
-            Timestamp eventEnd = result.getTimestamp("eventEndDate");
+            Timestamp eventStart = result.getTimestamp("event_start_date");
+            Timestamp eventEnd = result.getTimestamp("event_end_date");
 
-            Exposition exposition = new Exposition.Builder().withName(name).withEventStartDate(eventStart).withEventEndDate(eventEnd).build();
+            Exposition exposition = new Exposition(name, eventStart, eventEnd);
             exposition.setId(id);
             expositions.add(exposition);
         }

@@ -16,7 +16,7 @@ import java.util.List;
 public class ShowroomDaoImpl implements ItemsDao<Showroom> {
     private static final Logger LOGGER = Logger.getLogger(ShowroomDaoImpl.class);
     private DataSource dataSource;
-    private final String SQL_BASE_QUERY_SELECTION_TEXT = "SELECT showroom.*, exposition.* FROM Showroom as showroom LEFT JOIN Exposition as exposition ON showroom.exposition_id = showroom.id";
+    private final String SQL_BASE_QUERY_SELECTION_TEXT = "SELECT showroom.*, exposition.* FROM showroom as showroom LEFT JOIN exposition as exposition ON showroom.exposition_id = exposition.id";
 
     public ShowroomDaoImpl(@NotNull DataSource dataSource) {
         this.dataSource = dataSource;
@@ -123,15 +123,14 @@ public class ShowroomDaoImpl implements ItemsDao<Showroom> {
             Long exposition_id = result.getLong("showroom.exposition_id");
             String expositionName = result.getString("exposition.name");
 
-            Timestamp start = result.getTimestamp("eventStartDate");
-            Timestamp end = result.getTimestamp("eventEndDate");
+            Timestamp start = result.getTimestamp("event_start_date");
+            Timestamp end = result.getTimestamp("event_end_date");
 
-            Exposition exposition = new Exposition.Builder().withName(expositionName).withEventStartDate(start)
-                    .withEventEndDate(end).build();
+            Exposition exposition = new Exposition(expositionName, start, end);
             exposition.setId(exposition_id);
             BigDecimal price = result.getBigDecimal("showroom.price");
 
-            Showroom showroom = new Showroom.Builder().withShowroomName(name).withExposition(exposition).withPrice(price).build();
+            Showroom showroom = new Showroom(name, exposition, price);
             showroom.setId(id);
             showrooms.add(showroom);
         }

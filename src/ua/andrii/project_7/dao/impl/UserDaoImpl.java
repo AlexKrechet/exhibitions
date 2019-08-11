@@ -24,7 +24,7 @@ public class UserDaoImpl implements UserDao<User> {
 
     @Override
     public Long create(User user) {
-        String query_text = "INSERT INTO Users (login, password, name, lastName, isBlocked, user_type) VALUES (?, ?, ?, ?, ?, ?)";
+        String query_text = "INSERT INTO Users (login, password, name, last_name, isBlocked, user_type) VALUES (?, ?, ?, ?, ?, ?)";
         LOGGER.info(query_text);
         try (Connection connection = dataSource.getConnection();
              PreparedStatement statement = connection.prepareStatement(query_text, Statement.RETURN_GENERATED_KEYS)) {
@@ -73,7 +73,7 @@ public class UserDaoImpl implements UserDao<User> {
 
     @Override
     public boolean update(User user) {
-        String query_text = "UPDATE Users SET login = ?, password = ?, name = ?, lastName = ?, user_type = ?, isBlocked = ? WHERE id =?";
+        String query_text = "UPDATE Users SET login = ?, password = ?, name = ?, last_name = ?, user_type = ?, isBlocked = ? WHERE id =?";
         LOGGER.info(query_text);
         try (Connection connection = dataSource.getConnection();
              PreparedStatement statement = connection.prepareStatement(query_text)) {
@@ -188,7 +188,7 @@ public class UserDaoImpl implements UserDao<User> {
             String login = result.getString("login");
             String password = result.getString("password");
             String name = result.getString("name");
-            String lastName = result.getString("lastName");
+            String lastName = result.getString("last_name");
             boolean isBlocked = result.getBoolean("isBlocked");
             UserType userType = UserType.valueOf(result.getString("user_type").toUpperCase());
             long id = result.getLong("id");
