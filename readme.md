@@ -37,7 +37,23 @@ Tech requirements:
 
     2. Maven;
 
-    3. MySQL database;
+    3. MySQL Workbench;
 
     3.1. New database named "exhibition" (user "root", password "kA500asvB1QtaiSDXrxT")
+    
+    4. IntelijIDEA Ultimate 
+
+How to run:
+
+    1. Create a new project -> Java Enterprise -> Web Application
+    
+    2. Add framework support -> Maven
+    
+    3. Import SQL script to MySQL Workbench from src\resources -> Exhiitions DB.sql and execute
+    
+    4. Use git clone URL through IntelijIDEA tools or with terminal
+    
+    5. Set up a database connection with parameters from above and download proper JDBC driver, make  test connection
+    
+    6. Run panel -> Tomcat run option
 
