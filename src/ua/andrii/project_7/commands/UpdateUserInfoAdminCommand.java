@@ -56,7 +56,7 @@ public class UpdateUserInfoAdminCommand extends Command {
                 request.setAttribute("last_name", newUser.getLastName());
 
 
-                System.out.println(newUser.getIsBlocked());
+                LOGGER.info(newUser.getIsBlocked());
                 if (newUser.getIsBlocked()) {
                     request.setAttribute("is_blocked", "checked");
                 }
@@ -78,7 +78,7 @@ public class UpdateUserInfoAdminCommand extends Command {
         request.setAttribute("name", newUser.getName());
         request.setAttribute("last_name", newUser.getLastName());
 
-        System.out.println(newUser.getIsBlocked());
+        LOGGER.info(newUser.getIsBlocked());
         if (newUser.getIsBlocked()) {
             request.setAttribute("is_blocked", "checked");
         }

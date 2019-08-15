@@ -24,7 +24,7 @@ public class AuthenticateCommand extends Command {
         try {
             user = adminService.login(request.getParameter("user_name"), request.getParameter("password"));
         } catch (Throwable theException) {
-            System.out.println(theException);
+            LOGGER.info(theException);
         }
 
         request.setAttribute("action", "");

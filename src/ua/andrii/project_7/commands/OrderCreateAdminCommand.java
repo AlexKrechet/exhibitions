@@ -29,7 +29,6 @@ public class OrderCreateAdminCommand extends Command {
 
         List<Order> ordersList = adminService.getOrders();
 
-        //request.setAttribute("orderslist", ordersList);
         session.setAttribute("orderslist", ordersList);
 
         return "/admin_orders.jsp";

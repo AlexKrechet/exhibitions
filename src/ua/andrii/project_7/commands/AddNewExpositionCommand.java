@@ -52,7 +52,7 @@ public class AddNewExpositionCommand extends Command {
                 request.setAttribute("error", e.getMessage());
             }
         } catch (ParseException e) {
-            System.out.println("Exception :" + e);
+            LOGGER.error("Exception :" + e);
             return "/error.jsp";
         }
 

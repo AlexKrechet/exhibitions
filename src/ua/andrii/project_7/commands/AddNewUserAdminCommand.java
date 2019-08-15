@@ -23,7 +23,6 @@ public class AddNewUserAdminCommand extends Command {
         UserType userType;
         userType = UserType.valueOf(request.getParameter("user_type").toUpperCase());
 
-        //boolean isBlocked = request.getParameter("is_blocked").trim().equals("1") ? true : false;
         boolean isBlocked = true;
         if (request.getParameter("is_blocked") == null) {
             isBlocked = false;

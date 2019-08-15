@@ -114,8 +114,8 @@ public class OrderDaoImpl implements ItemsDao<Order> {
             statement.setTimestamp(2, new Timestamp(order.getPurchaseDate().getTime()));
             statement.setLong(3, order.getUser().getId());
             statement.setBoolean(4, order.isPaid());
-            System.out.println("*******************************************************************");
-            System.out.println(order.isPaid());
+            LOGGER.info("*******************************************************************");
+            LOGGER.info(order.isPaid());
             statement.setLong(5, order.getId());
 
             return statement.executeUpdate() != 0;
